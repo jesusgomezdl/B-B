@@ -8,41 +8,66 @@
 </head>
 <body>
 
-    <!-- BARRA DE NAVEGACIÓN ESTÁTICA -->
+    <!-- PANTALLA DE CARGA (SPLASH SCREEN) -->
+    <div id="pantalla-carga">
+        <div class="loader-content">
+            <img src="logo.png" alt="Juanda Flow Logo" class="loader-logo">
+            <h2>Juanda Flow</h2>
+            <div class="spinner-barra"></div>
+        </div>
+    </div>
+
+    <!-- BARRA DE NAVEGACIÓN DINÁMICA -->
     <header class="navbar">
-        <div class="logo">Juanda Flow</div>
+        <div class="logo-container">
+            <img src="logo.png" alt="Juanda Flow Logo" class="logo-img">
+            <span class="logo">Juanda Flow</span>
+        </div>
         <nav id="menu-navegacion-superior">
             <button onclick="cambiarVista('home')">Inicio</button>
             <button onclick="cambiarVista('barberia')">Barbería</button>
             <button onclick="cambiarVista('boutique')">Boutique</button>
             <button onclick="comprobarAccesoAdmin()" class="btn-admin-nav">Admin ⚙️</button>
+            <button onclick="toggleModoOscuro()" id="btn-modo-tema" style="background: transparent; border: 2px solid var(--border);">🌙</button>
         </nav>
         <div class="carrito-icono" onclick="toggleCarritoModal()">
             🛒 <span id="contador-carrito">0</span>
         </div>
     </header>
 
-    <!-- VISTA: INICIO -->
-    <section id="vista-home" class="vista">
-        <div class="hero" id="hero-contenedor-principal">
-            <h1 id="hero-titulo">Diseñando tu Estilo <span>Exclusividad y Cuidado Personal</span></h1>
-            <p id="hero-descripcion">Estamos enfocados en conseguir tu mejor imagen, diseñando y personalizando tu estilo según tus preferencias y necesidades profesionales.</p>
-            <div class="hero-botones">
-                <button class="btn-primary" onclick="cambiarVista('barberia')">Agendar Cita</button>
-                <button class="btn-secondary" onclick="cambiarVista('boutique')">Explorar Boutique</button>
+    <!-- VISTA: INICIO (PANTALLA PARTIDA / SPLASH HOME) -->
+    <section id="vista-home" class="vista oculto" style="padding: 0; max-width: 100%;">
+        <div class="split-screen-container">
+            
+            <!-- Mitad Izquierda: Barbería -->
+            <div class="split-side split-barberia" onclick="cambiarVista('barberia')">
+                <div class="split-overlay"></div>
+                <div class="split-content">
+                    <h2>Barbería & Estilo</h2>
+                    <p>Cortes clásicos, modernos y cuidado personal con los más altos estándares de exclusividad.</p>
+                    <button class="btn-primary">Agendar Cita</button>
+                </div>
             </div>
+
+            <!-- Mitad Derecha: Boutique -->
+            <div class="split-side split-boutique" onclick="cambiarVista('boutique')">
+                <div class="split-overlay"></div>
+                <div class="split-content">
+                    <h2>Boutique Exclusiva</h2>
+                    <p>Descubre nuestra selección única de indumentaria, accesorios y artículos seleccionados.</p>
+                    <button class="btn-secondary" style="background: rgba(255,255,255,0.15); color: #fff; border-color: rgba(255,255,255,0.4);">Explorar Tienda</button>
+                </div>
+            </div>
+
         </div>
     </section>
 
     <!-- VISTA: BARBERÍA CON VIDEOS LATERALES -->
     <section id="vista-barberia" class="vista oculto" style="padding: 0; max-width: 100%;">
         <div class="barberia-seccion-layout">
-            <!-- Video Lateral Izquierdo (Video 1) -->
             <video autoplay muted loop playsinline class="video-lateral video-lateral-izq">
                 <source src="https://www.youtube.com/watch?v=iyem1m8KKvk" type="video/mp4">
             </video>
-
-            <!-- Video Lateral Derecho (Video 2) -->
             <video autoplay muted loop playsinline class="video-lateral video-lateral-der">
                 <source src="https://www.youtube.com/watch?v=LHWxeIpRREg" type="video/mp4">
             </video>
@@ -79,6 +104,15 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </section>
+
+    <!-- VISTA DINÁMICA PARA NUEVOS SERVICIOS CREADOS -->
+    <section id="vista-servicio-dinamico" class="vista oculto">
+        <h2 id="titulo-servicio-dinamico">Servicio Personalizado</h2>
+        <div class="servicio-personalizado-container">
+            <p id="desc-servicio-dinamico" style="color: var(--text-muted); margin-bottom: 25px; line-height: 1.6;"></p>
+            <div id="contenido-extra-servicio"></div>
         </div>
     </section>
 
@@ -155,6 +189,15 @@
                 </div>
 
                 <div class="admin-card" style="margin-top: 30px;">
+                    <h3>Crear Nuevo Menú / Servicio Superior</h3>
+                    <label>Nombre del Servicio:</label>
+                    <input type="text" id="nuevo-servicio-nombre">
+                    <label>Descripción Detallada:</label>
+                    <textarea id="nuevo-servicio-desc" rows="2"></textarea>
+                    <button class="btn-primary" onclick="crearNuevoServicio()">Añadir Sección al Menú</button>
+                </div>
+
+                <div class="admin-card" style="margin-top: 30px;">
                     <h3>Gestión de Accesos y Roles</h3>
                     <label>Asignar Contraseña a Colaborador:</label>
                     <input type="text" id="pass-colaborador" placeholder="Clave para colaborador">
@@ -164,7 +207,7 @@
         </div>
 
         <!-- GESTIÓN DE CATEGORÍAS Y PRODUCTOS -->
-        <div class="admin-tabs" id="admin-seccion-boutique" style="margin-top: 30px;">
+        <div class="admin-tabs" id="admin-seccion-boutique">
             <div class="admin-card">
                 <h3>Gestionar Categorías de Boutique</h3>
                 <label>Nueva Categoría:</label>
