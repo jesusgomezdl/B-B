@@ -19,7 +19,7 @@
 
     <!-- BARRA DE NAVEGACIÓN DINÁMICA -->
     <header class="navbar">
-        <div class="logo-container">
+        <div class="logo-container" onclick="cambiarVista('home')" style="cursor: pointer;">
             <img src="logo.png" alt="Juanda Flow Logo" class="logo-img">
             <span class="logo">Juanda Flow</span>
         </div>
@@ -36,7 +36,7 @@
     </header>
 
     <!-- VISTA: INICIO (PANTALLA PARTIDA / SPLASH HOME) -->
-    <section id="vista-home" class="vista oculto" style="padding: 0; max-width: 100%;">
+    <section id="vista-home" class="vista" style="padding: 0; max-width: 100%;">
         <div class="split-screen-container">
             
             <!-- Mitad Izquierda: Barbería -->
@@ -107,15 +107,6 @@
         </div>
     </section>
 
-    <!-- VISTA DINÁMICA PARA NUEVOS SERVICIOS CREADOS -->
-    <section id="vista-servicio-dinamico" class="vista oculto">
-        <h2 id="titulo-servicio-dinamico">Servicio Personalizado</h2>
-        <div class="servicio-personalizado-container">
-            <p id="desc-servicio-dinamico" style="color: var(--text-muted); margin-bottom: 25px; line-height: 1.6;"></p>
-            <div id="contenido-extra-servicio"></div>
-        </div>
-    </section>
-
     <!-- VISTA: BOUTIQUE -->
     <section id="vista-boutique" class="vista oculto">
         <h2 style="text-align: center; font-weight: 300; letter-spacing: 2px; margin-bottom: 10px; text-transform: uppercase;">Nuestra Boutique</h2>
@@ -183,18 +174,7 @@
                     <input type="text" id="config-titulo-hero">
                     <label>Descripción:</label>
                     <textarea id="config-desc-hero" rows="2"></textarea>
-                    <label>Imagen de Fondo:</label>
-                    <input type="file" id="config-img-fondo" accept="image/*">
                     <button class="btn-primary" onclick="guardarConfigHero()">Aplicar Cambios de Diseño</button>
-                </div>
-
-                <div class="admin-card" style="margin-top: 30px;">
-                    <h3>Crear Nuevo Menú / Servicio Superior</h3>
-                    <label>Nombre del Servicio:</label>
-                    <input type="text" id="nuevo-servicio-nombre">
-                    <label>Descripción Detallada:</label>
-                    <textarea id="nuevo-servicio-desc" rows="2"></textarea>
-                    <button class="btn-primary" onclick="crearNuevoServicio()">Añadir Sección al Menú</button>
                 </div>
 
                 <div class="admin-card" style="margin-top: 30px;">
@@ -207,7 +187,7 @@
         </div>
 
         <!-- GESTIÓN DE CATEGORÍAS Y PRODUCTOS -->
-        <div class="admin-tabs" id="admin-seccion-boutique">
+        <div class="admin-tabs" id="admin-seccion-boutique" style="margin-top: 30px;">
             <div class="admin-card">
                 <h3>Gestionar Categorías de Boutique</h3>
                 <label>Nueva Categoría:</label>
@@ -235,7 +215,6 @@
                     <label><input type="checkbox" value="XL"> XL</label>
                     <label><input type="checkbox" value="Única"> Única</label>
                 </div>
-                <input type="hidden" id="prod-tallas">
 
                 <label>Descripción:</label>
                 <textarea id="prod-caracteristicas" rows="2"></textarea>

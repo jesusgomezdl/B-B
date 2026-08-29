@@ -28,6 +28,9 @@ window.addEventListener('DOMContentLoaded', () => {
         document.body.classList.remove('dark-mode');
         if (btnTema) btnTema.innerHTML = '🌙';
     }
+
+    // FUERZA QUE SIEMPRE INICIE EN HOME AL CARGAR LA PÁGINA
+    cambiarVista('home');
 });
 
 // Ocultar pantalla de carga inicial al cargar la página
@@ -43,17 +46,12 @@ window.addEventListener('load', () => {
 
 // Control de vistas (Navegación general)
 function cambiarVista(nombreVista) {
-    // Ocultar todas las vistas estáticas principales
-    const vistas = ['vista-home', 'vista-barberia', 'vista-boutique', 'vista-admin', 'vista-servicio-dinamico'];
+    const vistas = ['vista-home', 'vista-barberia', 'vista-boutique', 'vista-admin'];
     vistas.forEach(v => {
         const el = document.getElementById(v);
         if(el) el.classList.add('oculto');
     });
 
-    // Si existen vistas dinámicas generadas, ocultarlas también
-    document.querySelectorAll('.vista-dinamica-generada').forEach(el => el.classList.add('oculto'));
-
-    // Mostrar la vista seleccionada
     if (nombreVista === 'home') {
         document.getElementById('vista-home').classList.remove('oculto');
     } else if (nombreVista === 'barberia') {
@@ -68,12 +66,6 @@ function cambiarVista(nombreVista) {
         renderizarAgendaAdmin();
         renderizarInventarioAdmin();
         renderizarCategoriasAdmin();
-    } else {
-        // Vistas de servicios dinámicos creados por el admin
-        const vistaDinamica = document.getElementById('vista-' + nombreVista);
-        if(vistaDinamica) {
-            vistaDinamica.classList.remove('oculto');
-        }
     }
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
@@ -274,7 +266,6 @@ function enviarPedidoWhatsApp() {
     toggleCarritoModal();
 }
 
-// Catálogo y Filtros Boutique
 function renderizarCatalogoBoutique(categoriaFiltro = 'todos') {
     const contenedor = document.getElementById('catalogo-productos');
     const productos = JSON.parse(localStorage.getItem('juanda_productos')) || [];
@@ -325,7 +316,6 @@ function filtrarProductos(categoria, elementoBtn) {
     renderizarCatalogoBoutique(categoria);
 }
 
-// Modal Detalle de Producto
 function abrirModalDetalle(idProducto) {
     const productos = JSON.parse(localStorage.getItem('juanda_productos')) || [];
     const prod = productos.find(p => p.id === idProducto);
@@ -584,33 +574,4 @@ function guardarRolColaborador() {
     localStorage.setItem('juanda_pass_colaborador', clave);
     alert('Contraseña de colaborador guardada exitosamente.');
     document.getElementById('pass-colaborador').value = '';
-}
-
-function crearNuevoServicio() {
-    const nombre = document.getElementById('nuevo-servicio-nombre').value.trim();
-    const desc = document.getElementById('nuevo-servicio-desc').value.trim();
-    if(!nombre) return;
-
-    let idSlug = nombre.toLowerCase().replace(/\s+/g, '-');
-
-    const nav = document.getElementById('menu-navegacion-superior');
-    let nuevoBtn = document.createElement('button');
-    nuevoBtn.textContent = nombre;
-    nuevoBtn.onclick = () => cambiarVista(idSlug);
-    nav.insertBefore(nuevoBtn, document.querySelector('.btn-admin-nav'));
-
-    let seccion = document.createElement('section');
-    seccion.id = 'vista-' + idSlug;
-    seccion.className = 'vista oculto vista-dinamica-generada';
-    seccion.innerHTML = `
-        <h2 style="font-weight: 300; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px;">${nombre}</h2>
-        <div class="servicio-personalizado-container">
-            <p style="color: var(--text-muted); line-height: 1.6; font-size: 15px;">${desc}</p>
-        </div>
-    `;
-    document.body.appendChild(seccion);
-
-    alert(`¡Sección "${nombre}" creada y añadida al menú superior!`);
-    document.getElementById('nuevo-servicio-nombre').value = '';
-    document.getElementById('nuevo-servicio-desc').value = '';
 }
