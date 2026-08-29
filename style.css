@@ -1,375 +1,655 @@
+/* ================================================= */
+/* ESTILOS GENERALES Y VARIABLES                     */
+/* ================================================= */
 :root {
-    --bg-main: #f0f0f2;        
-    --bg-card: rgba(255, 255, 255, 0.94); 
-    --text-main: #111113;      
-    --text-muted: #6e6e73;     
-    --accent: #ff3b30;         
-    --accent-hover: #d70015;   
-    --danger: #ff453a;         
-    --border: rgba(0, 0, 0, 0.2); 
-    --radius-sm: 12px;         
-    --radius-md: 18px;
-    --transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
-}
-
-body.dark-mode {
-    --bg-main: #0a0a0c;
-    --bg-card: rgba(20, 20, 24, 0.98);
-    --text-main: #f5f5f7;
-    --text-muted: #98989d;
-    --border: rgba(255, 255, 255, 0.15);
-}
-
-body.dark-mode .navbar {
-    background: linear-gradient(135deg, rgba(20, 20, 24, 0.95), rgba(15, 15, 18, 0.98));
-}
-
-body.dark-mode input, 
-body.dark-mode select, 
-body.dark-mode textarea {
-    background-color: rgba(40, 40, 45, 0.95);
-    color: #f5f5f7;
-}
-
-body.dark-mode select option {
-    background-color: #1a1a1e;
-    color: #f5f5f7;
+    --bg-main: #121212;
+    --bg-card: #1e1e1e;
+    --text-main: #ffffff;
+    --text-muted: #a0a0a0;
+    --accent: #d4af37; /* Tono dorado elegante */
+    --border: #333333;
+    --danger: #e74c3c;
 }
 
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    letter-spacing: -0.01em;
-    font-size: 16px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-body {
-    background: #f0f0f2 url('fondo-ladrillo.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
+body, html {
+    background-color: var(--bg-main);
     color: var(--text-main);
+    overflow-x: hidden;
+    width: 100%;
     min-height: 100vh;
-    margin: 0;
-    -webkit-font-smoothing: antialiased;
-}
-
-body::before {
-    content: '';
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(240, 240, 242, 0.85);
-    z-index: -1;
-    pointer-events: none;
-    transition: background 0.3s ease;
-}
-
-body.dark-mode::before {
-    background: rgba(10, 10, 12, 0.92);
 }
 
 .oculto {
     display: none !important;
 }
 
+/* ================================================= */
+/* PANTALLA DE CARGA (SPLASH SCREEN)                 */
+/* ================================================= */
 #pantalla-carga {
     position: fixed;
-    top: 0; left: 0; width: 100%; height: 100vh;
-    background: linear-gradient(135deg, #111113 0%, #222226 100%);
-    display: flex; justify-content: center; align-items: center;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--bg-main);
+    display: flex;
+    justify-content: center;
+    align-items: center;
     z-index: 9999;
-    transition: opacity 0.5s ease, visibility 0.5s ease;
-}
-
-#pantalla-carga.fade-out {
-    opacity: 0; visibility: hidden;
+    transition: opacity 0.5s ease;
 }
 
 .loader-content {
-    text-align: center; display: flex; flex-direction: column; align-items: center; gap: 15px;
+    text-align: center;
 }
 
 .loader-logo {
-    width: 80px; height: 80px; object-fit: contain; border-radius: 50%;
-    border: 2px solid var(--accent);
-    animation: pulseLogo 1.5s infinite alternate;
-}
-
-.loader-content h2 {
-    color: #ffffff; font-size: 24px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+    width: 90px;
+    height: 90px;
+    object-fit: contain;
+    margin-bottom: 15px;
+    animation: pulse 1.5s infinite;
 }
 
 .spinner-barra {
-    width: 120px; height: 4px; background: rgba(255, 255, 255, 0.2); border-radius: 4px; overflow: hidden; position: relative;
+    width: 150px;
+    height: 3px;
+    background: var(--border);
+    margin: 15px auto 0;
+    position: relative;
+    overflow: hidden;
 }
 
 .spinner-barra::before {
-    content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
     background: var(--accent);
-    animation: cargarBarra 1.2s infinite linear;
-}
-
-@keyframes pulseLogo {
-    0% { transform: scale(0.95); opacity: 0.8; }
-    100% { transform: scale(1.05); opacity: 1; filter: drop-shadow(0 0 10px var(--accent)); }
+    animation: cargarBarra 1.2s infinite;
 }
 
 @keyframes cargarBarra {
     0% { left: -100%; }
+    50% { left: 0%; }
     100% { left: 100%; }
 }
 
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.05); opacity: 1; }
+    100% { transform: scale(1); opacity: 0.8; }
+}
+
+/* ================================================= */
+/* BARRA DE NAVEGACIÓN                               */
+/* ================================================= */
 .navbar {
-    display: flex; justify-content: space-between; align-items: center;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(245, 245, 247, 0.98));
-    padding: 18px 40px; border-bottom: 2px solid var(--border);
-    position: sticky; top: 0; z-index: 100;
-    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    background-color: var(--bg-card);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 
-.logo-container { display: flex; align-items: center; gap: 12px; }
-.logo-img { width: 36px; height: 36px; object-fit: contain; border-radius: 50%; }
-.logo { font-size: 20px; font-weight: 700; color: var(--text-main); }
-
-.navbar nav { display: flex; align-items: center; gap: 15px; }
-.navbar nav button {
-    background: rgba(0, 0, 0, 0.03); border: 2px solid var(--border);
-    color: var(--text-main); font-size: 15px; font-weight: 700;
-    padding: 10px 18px; border-radius: 980px; cursor: pointer; transition: var(--transition);
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
-.navbar nav button:hover {
-    background: var(--text-main); color: #ffffff; border-color: var(--text-main); transform: translateY(-2px);
+
+.logo-img {
+    width: 35px;
+    height: 35px;
+    object-fit: contain;
+}
+
+.logo {
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+#menu-navegacion-superior {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+#menu-navegacion-superior button {
+    background: transparent;
+    border: none;
+    color: var(--text-main);
+    font-size: 14px;
+    cursor: pointer;
+    padding: 6px 12px;
+    transition: color 0.3s;
+}
+
+#menu-navegacion-superior button:hover {
+    color: var(--accent);
 }
 
 .btn-admin-nav {
-    background: rgba(255, 59, 48, 0.08) !important;
-    border-color: rgba(255, 59, 48, 0.3) !important;
-    color: var(--accent) !important;
+    border: 1px solid var(--accent) !important;
+    border-radius: 4px;
 }
-.btn-admin-nav:hover { background: var(--accent) !important; color: white !important; }
 
 .carrito-icono {
-    background: linear-gradient(135deg, rgba(255, 59, 48, 0.1), rgba(0, 0, 0, 0.04));
-    border: 2px solid var(--accent); color: var(--text-main);
-    padding: 10px 22px; border-radius: 980px; font-size: 15px; font-weight: 700;
-    cursor: pointer; display: flex; align-items: center; gap: 10px; transition: var(--transition);
+    cursor: pointer;
+    font-size: 18px;
+    background: var(--bg-main);
+    padding: 6px 12px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
 }
-.carrito-icono:hover { background: var(--accent); color: white; transform: translateY(-2px); }
 
-.vista { padding: 60px 20px; max-width: 1200px; margin: 0 auto; }
-.vista h2 { color: var(--text-main) !important; }
+#contador-carrito {
+    color: var(--accent);
+    font-weight: bold;
+}
 
-.split-screen-container { display: flex; width: 100%; height: calc(100vh - 76px); overflow: hidden; }
+/* ================================================= */
+/* VISTAS GENERALES                                  */
+/* ================================================= */
+.vista {
+    padding: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* ================================================= */
+/* VISTA INICIO (SPLASH SCREEN / HOME PARTIDO)       */
+/* ================================================= */
+.split-screen-container {
+    display: flex;
+    width: 100%;
+    height: calc(100vh - 66px);
+}
+
 .split-side {
-    flex: 1; position: relative; display: flex; align-items: center; justify-content: center;
-    text-align: center; padding: 40px; cursor: pointer;
-    transition: flex 0.6s cubic-bezier(0.25, 1, 0.5, 1), filter 0.4s ease;
-    background-size: cover; background-position: center;
+    flex: 1;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    overflow: hidden;
+    transition: flex 0.5s ease;
 }
+
+.split-side:hover {
+    flex: 1.3;
+}
+
 .split-barberia {
-    background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.8)), url('macroodry-barber-8254067_1920.jpg');
-    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    background: url('barber-bg.jpg') center/cover no-repeat;
+    background-color: #181818;
 }
+
 .split-boutique {
-    background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.7)), url('fondo-ladrillo.jpg');
+    background: url('boutique-bg.jpg') center/cover no-repeat;
+    background-color: #222222;
 }
+
 .split-overlay {
-    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(10, 10, 12, 0.65); transition: background 0.4s ease; z-index: 1;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.65);
+    transition: background 0.3s;
 }
-.split-content { position: relative; z-index: 2; max-width: 450px; color: #ffffff; transition: transform 0.4s ease; }
-.split-content h2 { font-size: 38px; font-weight: 700; letter-spacing: 1px; margin-bottom: 15px; text-transform: uppercase; }
-.split-content p { font-size: 15px; color: rgba(255, 255, 255, 0.8); margin-bottom: 25px; line-height: 1.6; }
-.split-side:hover { flex: 1.25; }
-.split-side:hover .split-overlay { background: rgba(10, 10, 12, 0.45); }
-.split-side:hover .split-content { transform: scale(1.03); }
 
-button { cursor: pointer; font-weight: 600; border: none; transition: var(--transition); font-size: 15px; border-radius: 980px; padding: 14px 26px; }
-.btn-primary { background-color: var(--accent); color: white; box-shadow: 0 4px 15px rgba(255, 59, 48, 0.35); }
-.btn-primary:hover { background-color: var(--accent-hover); transform: translateY(-1px); }
-.btn-secondary { background-color: rgba(0, 0, 0, 0.08); color: var(--text-main); border: 2px solid var(--border); }
-.btn-secondary:hover { background-color: rgba(0, 0, 0, 0.15); border-color: var(--accent); }
-.btn-danger { background-color: var(--danger); color: white; padding: 10px 16px; width: 100%; }
-
-input, select, textarea {
-    width: 100%; padding: 16px 18px; margin: 6px 0 18px 0;
-    background-color: rgba(255, 255, 255, 0.95); border: 2px solid var(--border);
-    color: var(--text-main); font-size: 15px; border-radius: 10px; transition: var(--transition);
+.split-side:hover .split-overlay {
+    background: rgba(0, 0, 0, 0.45);
 }
-select option { background-color: #ffffff; color: #111113; }
-input:focus, select:focus, textarea:focus { border-color: var(--accent); outline: none; box-shadow: 0 0 0 4px rgba(255, 59, 48, 0.2); }
-label { font-size: 14px; font-weight: 700; color: var(--text-main); }
 
+.split-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 20px;
+    max-width: 400px;
+}
+
+.split-content h2 {
+    font-size: 32px;
+    font-weight: 300;
+    letter-spacing: 2px;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+}
+
+.split-content p {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin-bottom: 25px;
+}
+
+/* ================================================= */
+/* VISTA BARBERÍA & VIDEOS LATERALES                 */
+/* ================================================= */
 .barberia-seccion-layout {
-    position: relative; width: 100%; min-height: 85vh; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 40px 20px;
+    position: relative;
+    min-height: calc(100vh - 66px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+    overflow: hidden;
 }
-.video-lateral { position: absolute; top: 0; bottom: 0; width: 28%; height: 100%; object-fit: cover; z-index: 1; opacity: 0.2; }
+
+.video-lateral {
+    position: absolute;
+    top: 0;
+    width: 25%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.35;
+    z-index: 1;
+}
+
 .video-lateral-izq { left: 0; }
 .video-lateral-der { right: 0; }
-.barberia-overlay-global { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(240, 240, 242, 0.8); z-index: 2; }
-body.dark-mode .barberia-overlay-global { background: rgba(10, 10, 12, 0.85); }
-.barberia-contenido-principal { position: relative; z-index: 3; width: 100%; max-width: 600px; margin: 0 auto; }
-.barberia-container { background: var(--bg-card); border: 2px solid var(--border); padding: 40px; border-radius: var(--radius-md); box-shadow: 0 20px 40px rgba(0,0,0,0.12); backdrop-filter: blur(15px); }
 
-.paso { margin-bottom: 25px; }
-.paso h3 { font-weight: 600; font-size: 16px; margin-bottom: 12px; color: var(--text-main); }
-.grid-horas { display: grid; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 10px; margin-top: 10px; }
-.hora-slot {
-    background: rgba(0, 0, 0, 0.04); border: 2px solid var(--border); padding: 12px 5px;
-    text-align: center; font-size: 13px; font-weight: 600; cursor: pointer; transition: var(--transition); border-radius: 8px; color: var(--text-main);
-}
-.hora-slot:hover { background: var(--accent); color: white; border-color: var(--accent); }
-
-.admin-card, .producto-card {
-    background: var(--bg-card); padding: 35px; border: 2px solid var(--border);
-    border-radius: var(--radius-md); box-shadow: 0 15px 35px rgba(0,0,0,0.1); color: var(--text-main);
-}
-.filtros-boutique { display: flex; gap: 10px; margin-bottom: 35px; flex-wrap: wrap; justify-content: center; }
-.filtro-btn {
-    background: rgba(0, 0, 0, 0.04); color: var(--text-main); padding: 10px 20px;
-    border: 2px solid var(--border); font-size: 13px; font-weight: 600; border-radius: 980px;
-}
-.filtro-btn.activo { background: var(--accent); color: #ffffff; border-color: var(--accent); }
-
-.catalogo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 24px; }
-.producto-card { display: flex; flex-direction: column; justify-content: space-between; cursor: pointer; transition: var(--transition); overflow: hidden; padding: 0; }
-.producto-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.15); border-color: var(--accent); }
-.producto-card img { width: 100%; height: 280px; object-fit: cover; background: #e5e5ea; border-bottom: 2px solid var(--border); }
-.producto-info { padding: 20px; }
-.producto-info h4 { font-size: 18px; font-weight: 700; color: var(--text-main); }
-.producto-precio { color: var(--accent); font-weight: 700; font-size: 18px; margin-top: 6px; }
-
-.modal {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5);
-    display: flex; justify-content: center; align-items: center; z-index: 1000; backdrop-filter: blur(10px);
-}
-.modal-contenido {
-    background: var(--bg-card); padding: 30px; border: 2px solid var(--border); width: 85%; max-width: 650px;
-    position: relative; max-height: 85vh; overflow-y: auto; border-radius: var(--radius-md); box-shadow: 0 30px 60px rgba(0,0,0,0.3); color: var(--text-main);
-}
-.cerrar-modal {
-    position: absolute; top: 20px; right: 25px; font-size: 20px; color: var(--text-main); cursor: pointer;
-    background: rgba(0,0,0,0.08); width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-weight: 700;
-}
-.cerrar-modal:hover { background: var(--accent); color: white; }
-
-.detalle-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 20px; align-items: start; }
-.detalle-imagenes img#detalle-img-principal { width: 100%; height: 240px; object-fit: cover; background: #e5e5ea; border-radius: 8px; border: 2px solid var(--border); }
-.minis-container { display: flex; gap: 6px; margin-top: 8px; overflow-x: auto; }
-.minis-container img { width: 45px; height: 45px; object-fit: cover; cursor: pointer; border: 2px solid var(--border); border-radius: 6px; }
-
-.admin-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: start; }
-.admin-dias-check, .admin-horas-check { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 10px; margin: 12px 0 24px 0; }
-.admin-dias-check label, .admin-horas-check label {
-    display: flex; align-items: center; gap: 8px; background: rgba(255, 255, 255, 0.03); border: 2px solid var(--border);
-    padding: 10px 14px; border-radius: 10px; font-size: 13px; font-weight: 600; color: var(--text-main); cursor: pointer; transition: var(--transition);
-}
-.admin-dias-check label:hover, .admin-horas-check label:hover { border-color: var(--accent); background: rgba(255, 59, 48, 0.05); }
-.admin-dias-check input[type="checkbox"], .admin-horas-check input[type="checkbox"] { width: 16px; height: 16px; margin: 0; accent-color: var(--accent); cursor: pointer; }
-.admin-tallas-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 10px 0 20px 0; background: rgba(0, 0, 0, 0.03); padding: 12px; border: 2px solid var(--border); border-radius: 10px; }
-.admin-tallas-grid label { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: var(--text-main); cursor: pointer; }
-
-.carrito-item { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 2px solid var(--border); gap: 15px; }
-.carrito-item-detalles { display: flex; align-items: center; gap: 15px; flex: 1; }
-.carrito-item-detalles img, .carrito-item img { width: 60px; height: 60px; object-fit: cover; border-radius: 8px; border: 2px solid var(--border); background: #e5e5ea; flex-shrink: 0; }
-.carrito-item-info h4 { font-size: 16px; font-weight: 700; color: var(--text-main); }
-.carrito-item-info span { font-size: 14px; font-weight: 600; color: var(--text-muted); display: block; margin-top: 3px; }
-.carrito-item-controles { display: flex; align-items: center; gap: 8px; }
-.carrito-item-controles button { background: rgba(0, 0, 0, 0.06); color: var(--text-main); border: 2px solid var(--border); padding: 6px 12px; font-size: 12px; font-weight: 700; border-radius: 6px; }
-.carrito-item-controles button:hover { background: var(--accent); color: white; }
-
-/* =========================================
-   MEDIA QUERIES (ADAPTABILIDAD RESPONSIVA)
-   ========================================= */
-@media (max-width: 900px) {
-    .navbar { padding: 15px 20px; flex-wrap: wrap; gap: 12px; }
-    .navbar nav { order: 3; width: 100%; justify-content: center; overflow-x: auto; padding-bottom: 5px; }
-    .video-lateral { display: none; }
-    .admin-tabs { grid-template-columns: 1fr; }
+.barberia-overlay-global {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(18, 18, 18, 0.85);
+    z-index: 2;
 }
 
-@media (max-width: 600px) {
-    .navbar { padding: 12px 15px; }
-    .logo { font-size: 18px; }
-    .logo-img { width: 30px; height: 30px; }
-    .navbar nav button { font-size: 13px; padding: 8px 12px; }
-    .carrito-icono { padding: 8px 14px; font-size: 13px; }
-
-    .split-screen-container { flex-direction: column; height: auto; }
-    .split-side { min-height: 45vh; width: 100%; padding: 40px 20px; }
-    .split-side:hover { flex: unset; }
-    .split-content h2 { font-size: 28px; }
-    .split-content p { font-size: 14px; }
-
-    .vista { padding: 30px 15px; }
-    .barberia-container, .admin-card { padding: 20px 15px; }
-
-    .modal-contenido { width: 95%; max-height: 90vh; padding: 20px 15px; margin: 10px; }
-    .detalle-grid { grid-template-columns: 1fr; gap: 15px; }
-    .catalogo-grid { grid-template-columns: 1fr; gap: 15px; }
-    .producto-card img { height: 220px; }
-    .admin-dias-check, .admin-horas-check { grid-template-columns: repeat(2, 1fr); }
+.barberia-contenido-principal {
+    position: relative;
+    z-index: 3;
+    width: 100%;
+    max-width: 600px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    padding: 30px;
+    border-radius: 8px;
 }
+
+.barberia-container .paso {
+    margin-bottom: 25px;
+}
+
+.barberia-container h3 {
+    font-size: 15px;
+    font-weight: 400;
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+}
+
+select, input[type="text"], input[type="tel"], input[type="password"], input[type="number"], textarea {
+    width: 100%;
+    padding: 12px;
+    background: var(--bg-main);
+    border: 1px solid var(--border);
+    color: var(--text-main);
+    border-radius: 4px;
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+select:focus, input:focus, textarea:focus {
+    border-color: var(--accent);
+    outline: none;
+}
+
+.grid-horas {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    gap: 10px;
+}
+
+.btn-hora {
+    background: var(--bg-main);
+    border: 1px solid var(--border);
+    color: var(--text-main);
+    padding: 10px;
+    text-align: center;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: all 0.2s;
+}
+
+.btn-hora:hover, .btn-hora.seleccionado {
+    border-color: var(--accent);
+    background: rgba(212, 175, 55, 0.1);
+}
+
 /* ================================================= */
-/* AJUSTES RESPONSIVOS PARA CELULARES (Max 768px)    */
+/* BOTONES GLOBALES                                  */
+/* ================================================= */
+.btn-primary {
+    background: var(--accent);
+    color: #121212;
+    border: none;
+    padding: 12px 20px;
+    font-weight: 600;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    text-transform: uppercase;
+    font-size: 13px;
+    letter-spacing: 1px;
+    transition: opacity 0.2s;
+}
+
+.btn-primary:hover {
+    opacity: 0.9;
+}
+
+.btn-secondary {
+    background: transparent;
+    color: var(--text-main);
+    border: 1px solid var(--border);
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+    width: 100%;
+    transition: border-color 0.2s;
+}
+
+.btn-secondary:hover {
+    border-color: var(--text-main);
+}
+
+.btn-danger {
+    background: var(--danger);
+    color: #fff;
+    border: none;
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 13px;
+}
+
+/* ================================================= */
+/* VISTA BOUTIQUE & CATALOGO                         */
+/* ================================================= */
+.filtros-boutique {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+}
+
+.filtro-btn {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: all 0.2s;
+}
+
+.filtro-btn.activo, .filtro-btn:hover {
+    color: var(--text-main);
+    border-color: var(--accent);
+    background: rgba(212, 175, 55, 0.05);
+}
+
+.catalogo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.producto-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s;
+}
+
+.producto-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(212, 175, 55, 0.4);
+}
+
+.producto-img-container {
+    width: 100%;
+    height: 220px;
+    background: #181818;
+    position: relative;
+    overflow: hidden;
+}
+
+.producto-img-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.producto-info {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    justify-content: space-between;
+}
+
+.producto-info h3 {
+    font-size: 15px;
+    font-weight: 400;
+    margin-bottom: 5px;
+}
+
+.producto-precio {
+    color: var(--accent);
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 15px;
+}
+
+/* ================================================= */
+/* MODALES                                           */
+/* ================================================= */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+.modal-contenido {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    padding: 30px;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 700px;
+    position: relative;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.cerrar-modal {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 24px;
+    cursor: pointer;
+    color: var(--text-muted);
+}
+
+.cerrar-modal:hover {
+    color: var(--text-main);
+}
+
+.detalle-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+}
+
+.detalle-imagenes img {
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+.minis-container {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+}
+
+.minis-container img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 4px;
+    cursor: pointer;
+    border: 1px solid var(--border);
+}
+
+.minis-container img:hover {
+    border-color: var(--accent);
+}
+
+/* ================================================= */
+/* PANEL DE ADMINISTRACIÓN                           */
+/* ================================================= */
+.admin-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    padding: 25px;
+    border-radius: 8px;
+    margin-bottom: 25px;
+}
+
+.admin-card h3 {
+    font-size: 16px;
+    font-weight: 400;
+    margin-bottom: 15px;
+    letter-spacing: 1px;
+}
+
+.admin-dias-check, .admin-horas-check, .admin-tallas-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 20px;
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+.admin-dias-check label, .admin-horas-check label, .admin-tallas-grid label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+    color: var(--text-main);
+}
+
+/* ================================================= */
+/* MEDIA QUERIES PARA ADAPTABILIDAD MÓVIL            */
 /* ================================================= */
 @media screen and (max-width: 768px) {
-    /* 1. Evitar desbordamientos generales */
-    body, html {
-        overflow-x: hidden;
-        width: 100%;
-        margin: 0;
-        padding: 0;
+    .navbar {
+        padding: 10px 15px;
+        flex-direction: column;
+        gap: 10px;
     }
 
-    /* 2. Adaptar la pantalla partida de inicio (Home) para que se apilen verticalmente */
+    #menu-navegacion-superior {
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 5px;
+    }
+
+    #menu-navegacion-superior button {
+        font-size: 12px;
+        padding: 5px 8px;
+    }
+
+    .vista {
+        padding: 15px;
+    }
+
+    /* Pantalla de inicio partida en vertical */
     .split-screen-container {
         flex-direction: column !important;
         height: auto !important;
     }
+
     .split-side {
         width: 100% !important;
-        min-height: 50vh;
+        min-height: 45vh;
     }
 
-    /* 3. Ocultar o adaptar los videos laterales de la barbería en móviles para que no rompan la pantalla */
-    .video-lateral {
-        display: none !important; /* Oculta los videos laterales pesados en celular */
+    .split-content h2 {
+        font-size: 24px;
     }
+
+    /* Ocultar videos pesados laterales en celulares */
+    .video-lateral {
+        display: none !important;
+    }
+
     .barberia-seccion-layout {
         padding: 15px !important;
+        min-height: auto;
     }
 
-    /* 4. Asegurar que las grillas de productos y horas se ajusten a 1 sola columna */
-    .catalogo-grid, .grid-horas {
-        grid-template-columns: 1fr !important;
+    .barberia-contenido-principal {
+        padding: 15px;
     }
 
-    /* 5. Adaptar modales y contenedores al ancho de la pantalla del celular */
-    .modal-contenido {
-        width: 90% !important;
-        margin: 10% auto !important;
-        padding: 15px !important;
-    }
-    
+    /* Reestructurar vistas de detalles y modales */
     .detalle-grid {
         grid-template-columns: 1fr !important;
     }
 
-    /* 6. Barra de navegación adaptable */
-    .navbar {
-        flex-direction: column;
-        gap: 10px;
-        padding: 10px;
+    .modal-contenido {
+        width: 95% !important;
+        padding: 20px 15px;
+        margin: 10% auto;
     }
-    #menu-navegacion-superior {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 5px;
+
+    .catalogo-grid {
+        grid-template-columns: 1fr !important;
     }
 }
