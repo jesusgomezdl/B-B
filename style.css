@@ -1,0 +1,542 @@
+:root {
+    --bg-main: #0a0a0a;
+    --bg-card: #141414;
+    --text-main: #ffffff;
+    --text-muted: #a3a3a3;
+    --accent: #d4af37;
+    --accent-hover: #b38f27;
+    --danger: #ef4444;
+    --border: #262626;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+body {
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    min-height: 100vh;
+}
+
+.oculto {
+    display: none !important;
+}
+
+/* NAVBAR */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgba(10, 10, 10, 0.95);
+    padding: 20px 40px;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(5px);
+}
+
+.logo {
+    font-size: 18px;
+    font-weight: 300;
+    letter-spacing: 2px;
+    color: var(--accent);
+    text-transform: uppercase;
+}
+
+.navbar nav {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.navbar nav button {
+    background: none;
+    border: none;
+    color: var(--text-main);
+    font-size: 14px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: color 0.2s;
+    text-transform: uppercase;
+}
+
+.navbar nav button:hover {
+    color: var(--accent);
+}
+
+.btn-admin-nav {
+    color: var(--accent) !important;
+}
+
+.carrito-icono {
+    background: transparent;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    padding: 6px 14px;
+    border-radius: 30px;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s;
+}
+
+.carrito-icono:hover {
+    background: var(--accent);
+    color: #000;
+}
+
+/* VISTAS */
+.vista {
+    padding: 40px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* HERO CON IMAGEN DE FONDO */
+.hero {
+    text-align: center;
+    padding: 140px 20px;
+    max-width: 900px;
+    margin: 0 auto;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    border: 1px solid var(--border);
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(10, 10, 10, 0.85);
+    z-index: 1;
+}
+
+.hero > * {
+    position: relative;
+    z-index: 2;
+}
+
+.hero h1 {
+    font-size: 48px;
+    font-weight: 300;
+    letter-spacing: 3px;
+    margin-bottom: 20px;
+    color: var(--text-main);
+    text-transform: uppercase;
+}
+
+.hero h1 span {
+    color: var(--accent);
+    display: block;
+    font-size: 24px;
+    margin-top: 10px;
+    letter-spacing: 5px;
+}
+
+.hero p {
+    font-size: 16px;
+    color: var(--text-muted);
+    margin-bottom: 40px;
+    line-height: 1.6;
+}
+
+.hero-botones {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.hero-botones button {
+    flex: 1;
+    max-width: 220px;
+    text-align: center;
+}
+
+button {
+    cursor: pointer;
+    font-weight: 500;
+    border: none;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 12px;
+}
+
+.btn-primary {
+    background-color: var(--accent);
+    color: #000;
+    padding: 14px 20px;
+    width: 100%;
+}
+
+.btn-primary:hover {
+    background-color: var(--accent-hover);
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: var(--text-main);
+    border: 1px solid var(--text-main);
+    padding: 14px 20px;
+    width: 100%;
+}
+
+.btn-secondary:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.btn-danger {
+    background-color: var(--danger);
+    color: white;
+    padding: 10px;
+    width: 100%;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0 20px 0;
+    background-color: #1a1a1a;
+    border: 1px solid var(--border);
+    color: var(--text-main);
+    font-size: 14px;
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: var(--accent);
+    outline: none;
+}
+
+label {
+    font-size: 12px;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+}
+
+/* SECCIÓN BARBERÍA CON VIDEOS LATERALES Y DE FONDO */
+.barberia-seccion-layout {
+    position: relative;
+    width: 100%;
+    min-height: 85vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: 40px 20px;
+}
+
+.video-lateral {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 25%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+    opacity: 0.35;
+    filter: grayscale(30%);
+}
+
+.video-lateral-izq {
+    left: 0;
+}
+
+.video-lateral-der {
+    right: 0;
+}
+
+.barberia-overlay-global {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(10, 10, 10, 0.82);
+    z-index: 2;
+}
+
+.barberia-contenido-principal {
+    position: relative;
+    z-index: 3;
+    width: 100%;
+    max-width: 650px;
+    margin: 0 auto;
+}
+
+.barberia-container {
+    background: rgba(20, 20, 20, 0.9);
+    backdrop-filter: blur(8px);
+    padding: 40px;
+    border: 1px solid var(--border);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+@media(max-width: 900px) {
+    .video-lateral {
+        display: none;
+    }
+}
+
+.paso {
+    margin-bottom: 30px;
+}
+
+.paso h3 {
+    font-weight: 400;
+    letter-spacing: 1px;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.grid-horas {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.hora-slot {
+    background: #1a1a1a;
+    border: 1px solid var(--border);
+    padding: 12px 5px;
+    text-align: center;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.hora-slot:hover {
+    background: var(--accent);
+    color: #000;
+    border-color: var(--accent);
+}
+
+/* OTROS CONTENEDORES Y VISTAS */
+.filtros-boutique {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.filtro-btn {
+    background: transparent;
+    color: var(--text-muted);
+    padding: 8px 20px;
+    border: 1px solid var(--border);
+    font-size: 12px;
+    letter-spacing: 1px;
+}
+
+.filtro-btn.activo {
+    background: var(--accent);
+    color: #000;
+    border-color: var(--accent);
+}
+
+.catalogo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 30px;
+}
+
+.producto-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.producto-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--accent);
+}
+
+.producto-card img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    background: #000;
+}
+
+.producto-info {
+    padding: 20px;
+}
+
+.producto-info h4 {
+    font-weight: 400;
+    font-size: 16px;
+}
+
+.producto-precio {
+    color: var(--accent);
+    font-weight: 300;
+    font-size: 18px;
+    margin-top: 10px;
+}
+
+.admin-tabs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+}
+
+@media(max-width: 768px) {
+    .admin-tabs {
+        grid-template-columns: 1fr;
+    }
+}
+
+.admin-card {
+    background: var(--bg-card);
+    padding: 30px;
+    border: 1px solid var(--border);
+    margin-bottom: 30px;
+}
+
+.admin-dias-check, .admin-horas-check {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    margin: 10px 0 20px 0;
+    font-size: 13px;
+}
+
+.admin-tallas-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin: 10px 0 20px 0;
+    background: #1a1a1a;
+    padding: 12px;
+    border: 1px solid var(--border);
+}
+
+.admin-tallas-grid label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--text-main);
+    cursor: pointer;
+}
+
+.admin-acciones {
+    display: flex;
+    gap: 10px;
+    padding: 0 20px 20px 20px;
+}
+
+.btn-eliminar {
+    background: var(--danger);
+    color: white;
+    padding: 8px;
+    width: 100%;
+}
+
+.modal {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.85);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(5px);
+}
+
+.modal-contenido {
+    background: var(--bg-card);
+    padding: 40px;
+    border: 1px solid var(--border);
+    width: 90%;
+    max-width: 750px;
+    position: relative;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.cerrar-modal {
+    position: absolute;
+    top: 20px; right: 25px;
+    font-size: 24px;
+    color: var(--text-muted);
+    cursor: pointer;
+}
+
+.cerrar-modal:hover {
+    color: var(--accent);
+}
+
+.detalle-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+}
+
+@media(max-width: 600px) {
+    .detalle-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.detalle-imagenes img#detalle-img-principal {
+    width: 100%;
+    height: 320px;
+    object-fit: cover;
+    background: #000;
+}
+
+.minis-container {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+    overflow-x: auto;
+}
+
+.minis-container img {
+    width: 60px; height: 60px;
+    object-fit: cover;
+    cursor: pointer;
+    border: 1px solid var(--border);
+}
+
+.carrito-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.carrito-item-info span {
+    font-size: 12px;
+    color: var(--text-muted);
+    display: block;
+    margin-top: 4px;
+}
+
+.carrito-item-controles {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.carrito-item-controles button {
+    background: #262626;
+    color: white;
+    padding: 6px 10px;
+    font-size: 10px;
+}

@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juanda Flow</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- BARRA DE NAVEGACIÓN ESTÁTICA -->
+    <header class="navbar">
+        <div class="logo">Juanda Flow</div>
+        <nav id="menu-navegacion-superior">
+            <button onclick="cambiarVista('home')">Inicio</button>
+            <button onclick="cambiarVista('barberia')">Barbería</button>
+            <button onclick="cambiarVista('boutique')">Boutique</button>
+            <button onclick="comprobarAccesoAdmin()" class="btn-admin-nav">Admin ⚙️</button>
+        </nav>
+        <div class="carrito-icono" onclick="toggleCarritoModal()">
+            🛒 <span id="contador-carrito">0</span>
+        </div>
+    </header>
+
+    <!-- VISTA: INICIO -->
+    <section id="vista-home" class="vista">
+        <div class="hero" id="hero-contenedor-principal">
+            <h1 id="hero-titulo">Diseñando tu Estilo <span>Exclusividad y Cuidado Personal</span></h1>
+            <p id="hero-descripcion">Estamos enfocados en conseguir tu mejor imagen, diseñando y personalizando tu estilo según tus preferencias y necesidades profesionales.</p>
+            <div class="hero-botones">
+                <button class="btn-primary" onclick="cambiarVista('barberia')">Agendar Cita</button>
+                <button class="btn-secondary" onclick="cambiarVista('boutique')">Explorar Boutique</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- VISTA: BARBERÍA CON VIDEOS LATERALES -->
+    <section id="vista-barberia" class="vista oculto" style="padding: 0; max-width: 100%;">
+        <div class="barberia-seccion-layout">
+            <!-- Video Lateral Izquierdo (Video 1) -->
+            <video autoplay muted loop playsinline class="video-lateral video-lateral-izq">
+                <source src="https://www.youtube.com/watch?v=iyem1m8KKvk" type="video/mp4">
+            </video>
+
+            <!-- Video Lateral Derecho (Video 2) -->
+            <video autoplay muted loop playsinline class="video-lateral video-lateral-der">
+                <source src="https://www.youtube.com/watch?v=LHWxeIpRREg" type="video/mp4">
+            </video>
+
+            <div class="barberia-overlay-global"></div>
+
+            <div class="barberia-contenido-principal">
+                <div style="text-align: center; margin-bottom: 25px;">
+                    <h2 style="font-weight: 300; font-size: 32px; letter-spacing: 2px; text-transform: uppercase; color: var(--text-main);">Servicio de Barbería</h2>
+                    <p style="color: var(--text-muted); margin-top: 8px; font-size: 14px;">Cortes clásicos y modernos con un cuidado profesional y personalizado.</p>
+                </div>
+
+                <div class="barberia-container">
+                    <div class="paso">
+                        <h3>1. Selecciona un Día Disponible</h3>
+                        <select id="select-dia-cliente" onchange="mostrarHorasDelDia()">
+                            <option value="">Cargando días...</option>
+                        </select>
+                    </div>
+
+                    <div class="paso">
+                        <h3>2. Horarios Disponibles</h3>
+                        <div id="grid-horas" class="grid-horas">
+                            <p style="color: var(--text-muted); font-size: 13px;">Selecciona un día primero.</p>
+                        </div>
+                    </div>
+
+                    <div id="form-reserva" class="paso oculto">
+                        <h3>3. Tus Datos de Contacto</h3>
+                        <p style="font-size: 13px; margin-bottom: 15px;">Día: <b id="dia-seleccionado-txt"></b> | Hora: <b id="hora-seleccionada"></b></p>
+                        <input type="text" id="nombre-cliente" placeholder="Nombre Completo">
+                        <input type="tel" id="telefono-cliente" placeholder="Teléfono / WhatsApp">
+                        <button class="btn-primary" id="btn-enviar-cita">Confirmar Cita por WhatsApp</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- VISTA: BOUTIQUE -->
+    <section id="vista-boutique" class="vista oculto">
+        <h2 style="text-align: center; font-weight: 300; letter-spacing: 2px; margin-bottom: 10px; text-transform: uppercase;">Nuestra Boutique</h2>
+        <p style="text-align: center; color: var(--text-muted); margin-bottom: 30px; font-size: 14px;">Descubre nuestra línea exclusiva de accesorios y artículos seleccionados.</p>
+        
+        <div class="filtros-boutique" id="contenedor-filtros-categorias">
+            <button class="filtro-btn activo" onclick="filtrarProductos('todos')">Todos</button>
+        </div>
+        <div id="catalogo-productos" class="catalogo-grid"></div>
+    </section>
+
+    <!-- MODAL DE ACCESO / LOGIN ADMIN -->
+    <div id="modal-login-admin" class="modal oculto">
+        <div class="modal-contenido" style="max-width: 400px; text-align: center;">
+            <span class="cerrar-modal" onclick="cerrarModalLogin()">&times;</span>
+            <h3 style="font-weight: 300; letter-spacing: 1px; margin-bottom: 20px;">Acceso Restringido</h3>
+            <label>Contraseña:</label>
+            <input type="password" id="input-clave-admin" placeholder="Introduce tu clave">
+            <button class="btn-primary" onclick="validarCredencialesAdmin()">Ingresar al Panel</button>
+        </div>
+    </div>
+
+    <!-- VISTA: PANEL ADMINISTRADOR / COLABORADOR -->
+    <section id="vista-admin" class="vista oculto">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+            <h2 id="titulo-panel-admin" style="font-weight: 300; letter-spacing: 2px; text-transform: uppercase;">Panel de Administración</h2>
+            <button class="btn-secondary" onclick="cerrarSesionAdmin()" style="max-width: 150px; padding: 8px;">Cerrar Sesión</button>
+        </div>
+        
+        <div class="admin-tabs" id="admin-seccion-agenda">
+            <div class="admin-card">
+                <h3>Gestión de Agenda</h3>
+                <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 15px;">Habilita turnos masivos para los días de atención.</p>
+                
+                <div class="admin-dias-check">
+                    <label><input type="checkbox" name="dias-admin" value="Lunes"> Lunes</label>
+                    <label><input type="checkbox" name="dias-admin" value="Martes"> Martes</label>
+                    <label><input type="checkbox" name="dias-admin" value="Miércoles"> Miércoles</label>
+                    <label><input type="checkbox" name="dias-admin" value="Jueves"> Jueves</label>
+                    <label><input type="checkbox" name="dias-admin" value="Viernes"> Viernes</label>
+                    <label><input type="checkbox" name="dias-admin" value="Sábado"> Sábado</label>
+                    <label><input type="checkbox" name="dias-admin" value="Domingo"> Domingo</label>
+                </div>
+
+                <div class="admin-horas-check">
+                    <label><input type="checkbox" name="horas-admin" value="09:00 AM"> 09:00 AM</label>
+                    <label><input type="checkbox" name="horas-admin" value="10:00 AM"> 10:00 AM</label>
+                    <label><input type="checkbox" name="horas-admin" value="11:00 AM"> 11:00 AM</label>
+                    <label><input type="checkbox" name="horas-admin" value="02:00 PM"> 02:00 PM</label>
+                    <label><input type="checkbox" name="horas-admin" value="03:00 PM"> 03:00 PM</label>
+                    <label><input type="checkbox" name="horas-admin" value="04:00 PM"> 04:00 PM</label>
+                    <label><input type="checkbox" name="horas-admin" value="05:00 PM"> 05:00 PM</label>
+                </div>
+
+                <button class="btn-primary" onclick="guardarHorariosMasivos()">Habilitar Horarios</button>
+                <button class="btn-danger" onclick="limpiarAgendaAdmin()" style="margin-top: 10px;">Borrar Toda la Agenda</button>
+                <div id="lista-agenda-admin" style="margin-top: 20px; font-size: 13px; color: var(--text-muted);"></div>
+            </div>
+
+            <!-- BLOQUES EXCLUSIVOS DE ADMINISTRADOR MASTER -->
+            <div id="admin-solo-master">
+                <div class="admin-card">
+                    <h3>Personalización de la Página de Inicio</h3>
+                    <label>Título Principal:</label>
+                    <input type="text" id="config-titulo-hero">
+                    <label>Descripción:</label>
+                    <textarea id="config-desc-hero" rows="2"></textarea>
+                    <label>Imagen de Fondo:</label>
+                    <input type="file" id="config-img-fondo" accept="image/*">
+                    <button class="btn-primary" onclick="guardarConfigHero()">Aplicar Cambios de Diseño</button>
+                </div>
+
+                <div class="admin-card" style="margin-top: 30px;">
+                    <h3>Gestión de Accesos y Roles</h3>
+                    <label>Asignar Contraseña a Colaborador:</label>
+                    <input type="text" id="pass-colaborador" placeholder="Clave para colaborador">
+                    <button class="btn-primary" onclick="guardarRolColaborador()">Guardar Clave de Colaborador</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- GESTIÓN DE CATEGORÍAS Y PRODUCTOS -->
+        <div class="admin-tabs" id="admin-seccion-boutique" style="margin-top: 30px;">
+            <div class="admin-card">
+                <h3>Gestionar Categorías de Boutique</h3>
+                <label>Nueva Categoría:</label>
+                <input type="text" id="input-nueva-categoria" placeholder="ej. Gorras, Relojes">
+                <button class="btn-primary" onclick="agregarCategoriaBoutique()">Añadir Categoría</button>
+                <div id="lista-categorias-admin" style="margin-top: 15px; font-size: 13px; color: var(--text-muted);"></div>
+            </div>
+
+            <div class="admin-card">
+                <h3>Publicar Nuevo Producto</h3>
+                <label>Nombre:</label>
+                <input type="text" id="prod-nombre">
+
+                <label>Categoría:</label>
+                <select id="prod-categoria"></select>
+
+                <label>Precio ($):</label>
+                <input type="number" id="prod-precio">
+
+                <label>Opciones / Tallas:</label>
+                <div class="admin-tallas-grid" id="grupo-checkboxes-tallas">
+                    <label><input type="checkbox" value="S"> S</label>
+                    <label><input type="checkbox" value="M"> M</label>
+                    <label><input type="checkbox" value="L"> L</label>
+                    <label><input type="checkbox" value="XL"> XL</label>
+                    <label><input type="checkbox" value="Única"> Única</label>
+                </div>
+                <input type="hidden" id="prod-tallas">
+
+                <label>Descripción:</label>
+                <textarea id="prod-caracteristicas" rows="2"></textarea>
+
+                <label>Imágenes:</label>
+                <input type="file" id="prod-imagenes" multiple accept="image/*">
+
+                <button class="btn-primary" onclick="subirProductoConCheckboxes()" style="margin-top: 10px;">Guardar Artículo</button>
+            </div>
+        </div>
+
+        <div class="admin-card" style="margin-top: 30px;">
+            <h3>Inventario Actual</h3>
+            <div id="lista-inventario-admin" class="catalogo-grid" style="margin-top: 20px;"></div>
+        </div>
+    </section>
+
+    <!-- MODALES DE DETALLE Y CARRITO -->
+    <div id="modal-detalle" class="modal oculto">
+        <div class="modal-contenido">
+            <span class="cerrar-modal" onclick="cerrarModalDetalle()">&times;</span>
+            <div class="detalle-grid">
+                <div class="detalle-imagenes">
+                    <img id="detalle-img-principal" src="" alt="Principal">
+                    <div id="detalle-minis" class="minis-container"></div>
+                </div>
+                <div class="detalle-info">
+                    <h2 id="detalle-titulo" style="font-weight: 300; font-size: 22px;"></h2>
+                    <h3 id="detalle-precio" style="color: var(--accent); font-weight: 300; font-size: 20px; margin: 10px 0;"></h3>
+                    <p id="detalle-caracteristicas" style="font-size: 13px; color: var(--text-muted); line-height: 1.5; margin-bottom: 20px;"></p>
+                    
+                    <label>Seleccionar Opción:</label>
+                    <select id="detalle-select-talla"></select>
+
+                    <button class="btn-primary" id="btn-agregar-desde-detalle" style="margin-top: 20px;">Añadir al Carrito</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-carrito" class="modal oculto">
+        <div class="modal-contenido" style="max-width: 500px;">
+            <span class="cerrar-modal" onclick="toggleCarritoModal()">&times;</span>
+            <h3 style="font-weight: 300; letter-spacing: 1px; margin-bottom: 15px;">Tu Carrito</h3>
+            <div id="lista-items-carrito" style="max-height: 220px; overflow-y: auto; margin-bottom: 15px;"></div>
+            
+            <div style="display: flex; justify-content: space-between; font-size: 16px; font-weight: 300; margin-bottom: 20px; border-top: 1px solid var(--border); padding-top: 15px;">
+                <span>Total Estimado:</span>
+                <span id="carrito-total-precio" style="color: var(--accent); font-weight: 500;">$0</span>
+            </div>
+
+            <h4 style="font-weight: 300; font-size: 14px; margin-bottom: 10px;">Datos de Envío</h4>
+            <input type="text" id="nombre-comprador" placeholder="Nombre">
+            <input type="tel" id="telefono-comprador" placeholder="Teléfono / WhatsApp">
+            <button class="btn-primary" onclick="enviarPedidoWhatsApp()" style="margin-top: 10px;">Enviar Pedido por WhatsApp</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
