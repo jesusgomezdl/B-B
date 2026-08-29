@@ -314,3 +314,62 @@ body.dark-mode .barberia-overlay-global { background: rgba(10, 10, 12, 0.85); }
     .producto-card img { height: 220px; }
     .admin-dias-check, .admin-horas-check { grid-template-columns: repeat(2, 1fr); }
 }
+/* ================================================= */
+/* AJUSTES RESPONSIVOS PARA CELULARES (Max 768px)    */
+/* ================================================= */
+@media screen and (max-width: 768px) {
+    /* 1. Evitar desbordamientos generales */
+    body, html {
+        overflow-x: hidden;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    /* 2. Adaptar la pantalla partida de inicio (Home) para que se apilen verticalmente */
+    .split-screen-container {
+        flex-direction: column !important;
+        height: auto !important;
+    }
+    .split-side {
+        width: 100% !important;
+        min-height: 50vh;
+    }
+
+    /* 3. Ocultar o adaptar los videos laterales de la barbería en móviles para que no rompan la pantalla */
+    .video-lateral {
+        display: none !important; /* Oculta los videos laterales pesados en celular */
+    }
+    .barberia-seccion-layout {
+        padding: 15px !important;
+    }
+
+    /* 4. Asegurar que las grillas de productos y horas se ajusten a 1 sola columna */
+    .catalogo-grid, .grid-horas {
+        grid-template-columns: 1fr !important;
+    }
+
+    /* 5. Adaptar modales y contenedores al ancho de la pantalla del celular */
+    .modal-contenido {
+        width: 90% !important;
+        margin: 10% auto !important;
+        padding: 15px !important;
+    }
+    
+    .detalle-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    /* 6. Barra de navegación adaptable */
+    .navbar {
+        flex-direction: column;
+        gap: 10px;
+        padding: 10px;
+    }
+    #menu-navegacion-superior {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 5px;
+    }
+}
