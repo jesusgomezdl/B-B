@@ -383,9 +383,9 @@ function cerrarModalLogin() {
 
 function validarCredencialesAdmin() {
     const clave = document.getElementById('input-clave-admin').value.trim();
-    const passColab = localStorage.getItem('juanda_pass_colaborador') || 'colaborador123';
+    const passColab = localStorage.getItem('juanda_pass_colaborador') || 'c123';
 
-    if (clave === 'admin123') {
+    if (clave === 'a123') {
         localStorage.setItem('juanda_sesion', 'master');
         cerrarModalLogin();
         document.getElementById('input-clave-admin').value = '';
